@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            .switch input { 
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+            .outer {
+                display: flex;
+                align-items: center;
+            }
+            .outer div {
+                padding: 10px;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            ul li {
+                border: 1px solid #ddd;
+                margin-top: -1px; /* Prevent double borders */
+                background-color: #f6f6f6;
+                padding: 12px;
+                text-decoration: none;
+                font-size: 18px;
+                color: black;
+                display: block;
+                position: relative;
+            }
+
+            ul li:hover {
+                background-color: #eee;
+            }
+
+            #sites-list {
+                width: 100%;
+            }
+            #sites-list th {
+                background-color: #f6f6f6;
+                color: black;
+                font-size: 18px;
+                padding: 12px;
+                text-align: left;
+            }
+            #sites-list td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-decoration: none;
+                font-size: 18px;
+                color: black;
+                position: relative;
+            }
+
+            .close {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                right: 0%;
+                padding: 12px 16px;
+                transform: translate(0%, -50%);
+            }
+
+            .close:hover {background: #bbb;}
+        </style>
+    </head>
+
+    <body>
+        <h1>Settings</h1>
+        <div class="outer">
+            <div>Automatically turn on dark mode on bright sites:</div>
+            <div>
+                <label class="switch">
+                    <input type="checkbox" id="automode" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <h2>Current Site Settings</h2>
+
+        <table id="sites-list">
+            <thead>
+                <tr>
+                    <th>Site</th>
+                    <th style="width: 50px;">Dark Mode</th>
+                    <th style="width: 50px;">Remove</th>
+                </tr>
+            </thead>
+            <tbody id="sites-list-body">
+            </tbody>
+        </table>
+        <!-- <ul id="current-list">
+            <li>Agnes<span class="close">&times;</span></li>
+          
+            <li>Billy<span class="close">&times;</span></li>
+            <li>Bob<span class="close">&times;</span></li>
+          
+            <li>Calvin<span class="close">&times;</span></li>
+            <li>Christina<span class="close">&times;</span></li>
+            <li>Cindy</li>
+        </ul> -->
+        <script src="options.js"></script>
+    </body>
+
+</html>

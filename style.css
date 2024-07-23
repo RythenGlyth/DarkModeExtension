@@ -1,0 +1,7 @@
+.darkmodeextensionhtml, .darkmodeextensionhtml img:not(.darkmodeextensioninvert), .darkmodeextensionhtml video:not(.darkmodeextensioninvert), .darkmodeextensioninvert:not(img):not(video) {
+    filter: invert(0.9) hue-rotate(180deg);
+}
+
+html {
+    transition: filter 0.3s;
+}
