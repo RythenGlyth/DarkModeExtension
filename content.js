@@ -11,12 +11,18 @@ chrome.storage.sync.get({switchbox: true}, (items) => {
     });
 });
 
-function tryAuto() {
+function tryAuto(save=false) {
     let htmlBack = getComputedStyle(document.querySelector("html")).backgroundColor;
     let bodyBack = getComputedStyle(document.querySelector("body")).backgroundColor;
     autoEnableDarkmode(
-        colorNull(htmlBack) ? bodyBack : htmlBack
+        colorNull(htmlBack) ? bodyBack : htmlBack,
+        save
     );
+    if(!save) {
+        setTimeout(() => {
+            tryAuto(true) //recheck after 500ms
+        }, 500);
+    }
 }
 
 function colorNull(color) {
@@ -28,7 +34,7 @@ function colorNull(color) {
     }
 }
 
-function autoEnableDarkmode(color) {
+function autoEnableDarkmode(color, save=true) {
     let red, green, blue;
     
     if (color.match(/^rgba?/)) {
@@ -60,9 +66,10 @@ function autoEnableDarkmode(color) {
         0.587 * (green**2) +
         0.114 * (blue**2)
     );
-    console.log(red, green, blue, hsp)
     if (hsp > 127.5) {
-        setDark(true);
+        setDark(true, save);
+    } else {
+        setDark(false, false);
     }
 }
 
@@ -70,17 +77,19 @@ function toggle() {
     setDark(!document.querySelector("html").classList.contains("darkmodeextensionhtml"));
 }
 
-function setDark(isDark) {
+function setDark(isDark, save=true) {
     if(isDark) {
         document.querySelector("html").classList.add("darkmodeextensionhtml");
     } else {
         document.querySelector("html").classList.remove("darkmodeextensionhtml");
     }
     //chrome.runtime.sendMessage({messagetype: "broadcast-darkmode-page", isDark});
-    chrome.storage.sync.get({pages: {}}, items => {
-        items.pages[window.location.origin] = isDark;
-        chrome.storage.sync.set({pages: items.pages});
-    });
+    if(save) {
+        chrome.storage.sync.get({pages: {}}, items => {
+            items.pages[window.location.origin] = isDark;
+            chrome.storage.sync.set({pages: items.pages});
+        });
+    }
 }
 
 chrome.storage.sync.onChanged.addListener((changes, area) => {
