@@ -69,7 +69,7 @@ function autoEnableDarkmode(color, save=true) {
     if (hsp > 127.5) {
         setDark(true, save);
     } else {
-        setDark(false, false);
+        setDark(false, save);
     }
 }
 
