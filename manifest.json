@@ -5,6 +5,7 @@
   "description": "Inverts Colors of webpages with the use of the css filter attribute.",
   "permissions": [
     "storage",
+    "unlimitedStorage",
     "tabs", 
     "https://*/*",
     "contextMenus"

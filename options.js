@@ -1,19 +1,19 @@
-chrome.storage.sync.get({automode: true}, (items) => {
+chrome.storage.local.get({automode: true}, (items) => {
     document.getElementById("automode").checked = items.automode;
 });
 
 document.getElementById("automode").addEventListener("change", (e) => {
-    chrome.storage.sync.set({automode: document.getElementById("automode").checked});
+    chrome.storage.local.set({automode: document.getElementById("automode").checked});
 });
 
-chrome.storage.sync.get({pages: {}}, (items) => {
+chrome.storage.local.get({pages: {}}, (items) => {
     let elements = Object.entries(items.pages).map(([site, isDark]) => createSiteElement(site, isDark));
     let body = document.getElementById("sites-list-body")
     body.innerHTML = "";
     body.append(...elements);
 })
 
-chrome.storage.sync.onChanged.addListener((changes, area) => {
+chrome.storage.local.onChanged.addListener((changes, area) => {
     if(changes.pages?.newValue) {
         Object.entries(changes.pages?.newValue).forEach(([site, isDark]) => {
             let rows = Array.from(document.getElementById("sites-list-body").children).filter((node) => node.children[0].innerText == site)
@@ -37,15 +37,15 @@ function createSiteElement(site, isDark) {
         </label></td>
         <td><span class="close">&times;</span></td>`
     tr.querySelector("input.darkswitch").addEventListener("change", (e) => {
-        chrome.storage.sync.get({pages: {}}, (items) => {
+        chrome.storage.local.get({pages: {}}, (items) => {
             items.pages[site] = e.target.checked;
-            chrome.storage.sync.set({pages: items.pages});
+            chrome.storage.local.set({pages: items.pages});
         })
     })
     tr.querySelector("span.close").addEventListener("click", (e) => {
-        chrome.storage.sync.get({pages: {}}, (items) => {
+        chrome.storage.local.get({pages: {}}, (items) => {
             delete items.pages[site];
-            chrome.storage.sync.set({pages: items.pages});
+            chrome.storage.local.set({pages: items.pages});
         })
     })
     return tr

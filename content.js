@@ -1,5 +1,5 @@
-chrome.storage.sync.get({switchbox: true}, (items) => {
-    chrome.storage.sync.get({pages: {}}, items => {
+chrome.storage.local.get({switchbox: true}, (items) => {
+    chrome.storage.local.get({pages: {}}, items => {
         if(items.pages[window.location.origin] == true) {
             setDark(true);
         } else if (items.pages[window.location.origin] == false) {
@@ -85,14 +85,14 @@ function setDark(isDark, save=true) {
     }
     //chrome.runtime.sendMessage({messagetype: "broadcast-darkmode-page", isDark});
     if(save) {
-        chrome.storage.sync.get({pages: {}}, items => {
+        chrome.storage.local.get({pages: {}}, items => {
             items.pages[window.location.origin] = isDark;
-            chrome.storage.sync.set({pages: items.pages});
+            chrome.storage.local.set({pages: items.pages});
         });
     }
 }
 
-chrome.storage.sync.onChanged.addListener((changes, area) => {
+chrome.storage.local.onChanged.addListener((changes, area) => {
     if(changes.pages?.newValue) {
         if(changes.pages.newValue[window.location.origin] == true) {
             if(document.querySelector("html").classList.contains("darkmodeextensionhtml")) return;
